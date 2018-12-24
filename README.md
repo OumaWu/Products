@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
@@ -70,4 +69,3 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 =======
 # Products
 A simple product management web app with React.js
->>>>>>> 55ce73b18121d412567b4688d0d89f6bb66ce739
