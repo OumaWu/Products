@@ -6,12 +6,18 @@ class Table extends React.Component {
     constructor(props) {
         super(props);
         this.sortByKeyAndOrder = this.sortByKeyAndOrder.bind(this);
+        this.handleSort = this.handleSort.bind(this);
+        this.handleDestroy = this.handleDestroy.bind(this);
         this.state = {
             sort: {
                 column: 'price',
                 direction: 'desc'
             }
         };
+    }
+
+    handleDestroy(id) {
+        this.props.onDestroy(id);
     }
 
     sortByKeyAndOrder(objectA, objectB) {
@@ -34,13 +40,23 @@ class Table extends React.Component {
         return productsAsArray.sort(this.sortByKeyAndOrder);
     }
 
+    handleSort(column, direction) {
+        this.setState({
+            sort: {
+                column: column,
+                direction: direction
+            }
+        });
+    }
+
     render() {
         let rows = [];
         this.sortProducts().forEach((product) => {
             if (product.name.indexOf(this.props.filterText) === -1 || (!product.stocked && this.props.showStock)) {
                 return;
             }
-            rows.push(<ProductRow product={product} key={product.id}></ProductRow>);
+            rows.push(<ProductRow product={product} key={product.id}
+                onDestroy={this.handleDestroy}></ProductRow>);
         });
 
         return (
@@ -48,9 +64,11 @@ class Table extends React.Component {
                 <thead>
                     <tr>
                         <SortableColumnHeader
+                            onSort={this.handleSort}
                             currentSort={this.state.sort}
                             column="name" />
                         <SortableColumnHeader
+                            onSort={this.handleSort}
                             currentSort={this.state.sort}
                             column="price" />
                     </tr>
@@ -64,6 +82,16 @@ class Table extends React.Component {
 }
 
 class ProductRow extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.destroy = this.destroy.bind(this);
+    }
+
+    destroy() {
+        this.props.onDestroy(this.props.product.id);
+    }
+
     render() {
         return (
             <tr>
@@ -76,7 +104,7 @@ class ProductRow extends React.Component {
                     {this.props.product.price}
                 </td>
                 <td>
-                    <button>X</button>
+                    <button onClick={this.destroy}>X</button>
                 </td>
             </tr>
         );
@@ -84,6 +112,15 @@ class ProductRow extends React.Component {
 }
 
 class SortableColumnHeader extends React.Component {
+
+    constructor(props) {
+        super(props)
+        this.handleSort = this.handleSort.bind(this);
+    }
+
+    handleSort(e) {
+        this.props.onSort(this.props.column, e.target.name);
+    }
     render() {
         let currentSort = this.props.currentSort.column === this.props.column ?
             this.props.currentSort.direction : false;
@@ -91,10 +128,17 @@ class SortableColumnHeader extends React.Component {
         return (
             <th>
                 {this.props.column}
-                <button className={currentSort === 'asc' ?
-                    'SortableColumnHeader-current' : ''}>&#x25B2;</button>
                 <button
-                    className={currentSort === 'desc' ? 'SortableColumnHeader-current' : ''}
+                    onClick={this.handleSort}
+                    className={currentSort === 'asc' ?
+                        'SortableColumnHeader-current' : ''}
+                    name='asc'
+                >&#x25B2;</button>
+                <button
+                    onClick={this.handleSort}
+                    className={currentSort === 'desc' ?
+                        'SortableColumnHeader-current' : ''}
+                    name='desc'
                 >&#x25BC;</button>
             </th>
         );

@@ -5,10 +5,6 @@ class Filters extends React.Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
-        this.state = {
-            filterText: this.props.filterText,
-            showStock: this.props.showStock
-        };
     }
 
     handleChange(e) {
@@ -18,6 +14,8 @@ class Filters extends React.Component {
         this.props.onFilter({
             [name]: value
         });
+
+        e.preventDefault();
     }
 
     render() {
@@ -29,7 +27,7 @@ class Filters extends React.Component {
                     name="filterText"
                     onChange={this.handleChange}
                 />&nbsp;
-                <button>Search</button>
+                <button onClick={this.handleChange}>Search</button>
                 <p>
                     <label>{/* clickint the text can toggle the checkbox */}
                         <input type="checkbox"
