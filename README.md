@@ -1,6 +1,31 @@
 # Products
 A simple product management web app with React.js
 =======
+#### The product list page which has a search bar, a product list with name and price, and a form to add a new product.
+#### The products are in stock or out of stock. For those out of stock their names will be displayed in red.
+![Screenshot](screenshot/1.png)
+
+
+
+![Screenshot](screenshot/2.png) ![Screenshot](screenshot/3.png)
+
+
+
+![Screenshot](screenshot/4.png)
+
+
+
+![Screenshot](screenshot/5.png)
+
+
+
+![Screenshot](screenshot/6.png)
+
+
+
+![Screenshot](screenshot/7.png) ![Screenshot](screenshot/8.png)
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
